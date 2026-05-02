@@ -17,61 +17,63 @@ enum EventType {
 }
 
 enum SDKCallType {
-    SDKCallType_UNSPECIFIED = 0;
-    RAW = 1;
-    MIDDLEWARE_CALL = 2;
+  SDKCallType_UNSPECIFIED = 0;
+  RAW = 1;
+  MIDDLEWARE_CALL = 2;
 }
 
 message RegisterEventRequest {
-    EventType type = 1;
-    string userId = 2;
-    oneof data {
-        SDKCall sdkCall = 3;
-    }
+  EventType type = 1;
+  string userId = 2;
+  int32 reportedTimestamp = 3;
+  oneof data {
+    SDKCall sdkCall = 4;
+  }
 }
 
 message SDKCall {
-    SDKCallType sdkCallType = 1;
+  SDKCallType sdkCallType = 1;
 
-    oneof debit {
-        float amount = 2;
-        string tag = 3;
-        string expr = 4;  // Pricing expression (e.g., "add(mul(tag('PREMIUM'),3),250)")
-    }
+  oneof debit {
+    float amount = 2;
+    string tag = 3;
+    string expr = 4; // Pricing expression (e.g., "add(mul(tag('PREMIUM'),3),250)")
+  }
 }
 
 message RegisterEventResponse {
-    string random = 1;
+  string random = 1;
 }
 
 message StreamEventRequest {
-    EventType type = 1;
-    string userId = 2;
-    oneof data {
-        SDKCall sdkCall = 3;
-        AITokenUsage aiTokenUsage = 4;
-    }
+  EventType type = 1;
+  string userId = 2;
+  int32 reportedTimestamp = 3;
+  oneof data {
+    SDKCall sdkCall = 4;
+    AITokenUsage aiTokenUsage = 5;
+  }
 }
 
 message AITokenUsage {
-    string model = 1;
-    int32 inputTokens = 2;
-    int32 outputTokens = 3;
+  string model = 1;
+  int32 inputTokens = 2;
+  int32 outputTokens = 3;
 
-    oneof inputDebit {
-        float inputAmount = 4;
-        string inputTag = 5;
-        string inputExpr = 8;  // Pricing expression for input tokens
-    }
+  oneof inputDebit {
+    float inputAmount = 4;
+    string inputTag = 5;
+    string inputExpr = 8; // Pricing expression for input tokens
+  }
 
-    oneof outputDebit {
-        float outputAmount = 6;
-        string outputTag = 7;
-        string outputExpr = 9;  // Pricing expression for output tokens
-    }
+  oneof outputDebit {
+    float outputAmount = 6;
+    string outputTag = 7;
+    string outputExpr = 9; // Pricing expression for output tokens
+  }
 }
 
 message StreamEventResponse {
-    int32 eventsProcessed = 1;
-    string message = 2;
+  int32 eventsProcessed = 1;
+  string message = 2;
 }
