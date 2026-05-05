@@ -1,5 +1,7 @@
 version: v2
 plugins:
-  - local: protoc-gen-es
+  - local: protoc-gen-ts
     out: ../src/gen
-    opt: target=ts
+  - local: grpc_tools_node_protoc_plugin
+    out: ../src/gen
+    opt: grpc_js
