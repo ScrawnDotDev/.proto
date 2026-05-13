@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package data.v1;
+
+service DataQueryService {
+  rpc Query(QueryRequest) returns (QueryResponse) {}
+}
+
+enum Operator {
+  OPERATOR_UNSPECIFIED = 0;
+  EQ = 1;
+  GT = 2;
+  GTE = 3;
+  LT = 4;
+  LTE = 5;
+  NEQ = 6;
+  CONTAINS = 7;
+}
+
+enum LogicalOperator {
+  LOGICAL_OPERATOR_UNSPECIFIED = 0;
+  AND = 1;
+  OR = 2;
+}
+
+message FilterCondition {
+  string field = 1;
+  Operator operator = 2;
+  string value = 3;
+}
+
+message FilterGroup {
+  LogicalOperator logical = 1;
+  repeated FilterCondition conditions = 2;
+  repeated FilterGroup groups = 3;
+}
+
+message OrderBy {
+  string field = 1;
+  bool descending = 2;
+}
+
+message QueryRequest {
+  string table = 1;
+  FilterGroup where = 2;
+  repeated OrderBy order_by = 3;
+  int32 limit = 4;
+  int32 offset = 5;
+}
+
+message QueryResponse {
+  repeated string columns = 1;
+  repeated Row rows = 2;
+  int32 total = 3;
+}
+
+message Row {
+  repeated string values = 1;
+}
