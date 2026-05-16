@@ -70,6 +70,9 @@ message EventRow {
   optional int32 output_tokens = 11;
   optional int64 input_debit_amount = 12;
   optional int64 output_debit_amount = 13;
+  optional string provider = 14;
+  int32 input_cache_tokens = 15;
+  int64 input_cache_debit_amount = 16;
 }
 
 message AggregationRow {

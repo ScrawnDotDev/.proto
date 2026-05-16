@@ -35,7 +35,7 @@ message SDKCall {
   SDKCallType sdkCallType = 1;
 
   oneof debit {
-    float amount = 2;
+    int32 amount = 2;
     string tag = 3;
     string expr = 4; // Pricing expression (e.g., "add(mul(tag('PREMIUM'),3),250)")
   }
@@ -61,15 +61,24 @@ message AITokenUsage {
   int32 outputTokens = 3;
 
   oneof inputDebit {
-    float inputAmount = 4;
+    int32 inputAmount = 4;
     string inputTag = 5;
     string inputExpr = 8; // Pricing expression for input tokens
   }
 
   oneof outputDebit {
-    float outputAmount = 6;
+    int32 outputAmount = 6;
     string outputTag = 7;
     string outputExpr = 9; // Pricing expression for output tokens
+  }
+
+  optional string provider = 10;
+  int32 inputCacheTokens = 11;
+
+  oneof inputCacheDebit {
+    int32 inputCacheAmount = 12;
+    string inputCacheTag = 13;
+    string inputCacheExpr = 14; // Pricing expression for input cache tokens
   }
 }
 
