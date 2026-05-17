@@ -12,12 +12,12 @@ service EventService {
 
 enum EventType {
   EVENT_TYPE_UNSPECIFIED = 0;
-  SDK_CALL = 1;
+  BASIC_USAGE = 1;
   AI_TOKEN_USAGE = 2;
 }
 
-enum SDKCallType {
-  SDKCallType_UNSPECIFIED = 0;
+enum BasicUsageType {
+  BASIC_USAGE_TYPE_UNSPECIFIED = 0;
   RAW = 1;
   MIDDLEWARE_CALL = 2;
 }
@@ -27,12 +27,12 @@ message RegisterEventRequest {
   string userId = 2;
   int32 reportedTimestamp = 3;
   oneof data {
-    SDKCall sdkCall = 4;
+    BasicUsage basicUsage = 4;
   }
 }
 
-message SDKCall {
-  SDKCallType sdkCallType = 1;
+message BasicUsage {
+  BasicUsageType basicUsageType = 1;
 
   oneof debit {
     int32 amount = 2;
@@ -52,7 +52,7 @@ message StreamEventRequest {
   string userId = 2;
   int32 reportedTimestamp = 3;
   oneof data {
-    SDKCall sdkCall = 4;
+    BasicUsage basicUsage = 4;
     AITokenUsage aiTokenUsage = 5;
   }
 }
