@@ -38,6 +38,7 @@ enum SdkCallField {
   SDK_CALL_INGESTED_TIMESTAMP = 6;
   SDK_CALL_SDK_CALL_TYPE = 7;
   SDK_CALL_DEBIT_AMOUNT = 8;
+  SDK_CALL_METADATA = 9;
 }
 
 enum AiTokenField {
@@ -53,6 +54,7 @@ enum AiTokenField {
   AI_TOKEN_OUTPUT_TOKENS = 9;
   AI_TOKEN_INPUT_DEBIT_AMOUNT = 10;
   AI_TOKEN_OUTPUT_DEBIT_AMOUNT = 11;
+  AI_TOKEN_METADATA = 12;
 }
 
 enum PaymentField {
@@ -111,6 +113,7 @@ message EventRow {
   optional string provider = 14;
   int32 input_cache_tokens = 15;
   int64 input_cache_debit_amount = 16;
+  optional string metadata = 17;
 }
 
 message AggregationRow {

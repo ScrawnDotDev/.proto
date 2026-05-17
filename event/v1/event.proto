@@ -39,6 +39,8 @@ message SDKCall {
     string tag = 3;
     string expr = 4; // Pricing expression (e.g., "add(mul(tag('PREMIUM'),3),250)")
   }
+
+  optional string metadata = 5;
 }
 
 message RegisterEventResponse {
@@ -80,6 +82,8 @@ message AITokenUsage {
     string inputCacheTag = 13;
     string inputCacheExpr = 14; // Pricing expression for input cache tokens
   }
+
+  optional string metadata = 15;
 }
 
 message StreamEventResponse {
