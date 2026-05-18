@@ -26,6 +26,8 @@ message RegisterEventRequest {
   EventType type = 1;
   string userId = 2;
   int32 reportedTimestamp = 3;
+  string eventId = 5;
+  string idempotencyKey = 6;
   oneof data {
     SDKCall sdkCall = 4;
   }
@@ -49,6 +51,8 @@ message StreamEventRequest {
   EventType type = 1;
   string userId = 2;
   int32 reportedTimestamp = 3;
+  string eventId = 6;
+  string idempotencyKey = 7;
   oneof data {
     SDKCall sdkCall = 4;
     AITokenUsage aiTokenUsage = 5;
