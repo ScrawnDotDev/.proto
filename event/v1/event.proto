@@ -12,12 +12,12 @@ service EventService {
 
 enum EventType {
   EVENT_TYPE_UNSPECIFIED = 0;
-  SDK_CALL = 1;
+  BASIC_USAGE = 1;
   AI_TOKEN_USAGE = 2;
 }
 
-enum SDKCallType {
-  SDKCallType_UNSPECIFIED = 0;
+enum BasicUsageType {
+  BASIC_USAGE_TYPE_UNSPECIFIED = 0;
   RAW = 1;
   MIDDLEWARE_CALL = 2;
 }
@@ -29,18 +29,20 @@ message RegisterEventRequest {
   string eventId = 5;
   string idempotencyKey = 6;
   oneof data {
-    SDKCall sdkCall = 4;
+    BasicUsage basicUsage = 4;
   }
 }
 
-message SDKCall {
-  SDKCallType sdkCallType = 1;
+message BasicUsage {
+  BasicUsageType basicUsageType = 1;
 
   oneof debit {
-    float amount = 2;
+    int32 amount = 2;
     string tag = 3;
     string expr = 4; // Pricing expression (e.g., "add(mul(tag('PREMIUM'),3),250)")
   }
+
+  optional string metadata = 5;
 }
 
 message RegisterEventResponse {
@@ -54,7 +56,7 @@ message StreamEventRequest {
   string eventId = 6;
   string idempotencyKey = 7;
   oneof data {
-    SDKCall sdkCall = 4;
+    BasicUsage basicUsage = 4;
     AITokenUsage aiTokenUsage = 5;
   }
 }
@@ -65,16 +67,27 @@ message AITokenUsage {
   int32 outputTokens = 3;
 
   oneof inputDebit {
-    float inputAmount = 4;
+    int32 inputAmount = 4;
     string inputTag = 5;
     string inputExpr = 8; // Pricing expression for input tokens
   }
 
   oneof outputDebit {
-    float outputAmount = 6;
+    int32 outputAmount = 6;
     string outputTag = 7;
     string outputExpr = 9; // Pricing expression for output tokens
   }
+
+  optional string provider = 10;
+  int32 inputCacheTokens = 11;
+
+  oneof inputCacheDebit {
+    int32 inputCacheAmount = 12;
+    string inputCacheTag = 13;
+    string inputCacheExpr = 14; // Pricing expression for input cache tokens
+  }
+
+  optional string metadata = 15;
 }
 
 message StreamEventResponse {

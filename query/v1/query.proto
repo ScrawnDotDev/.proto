@@ -1,0 +1,128 @@
+syntax = "proto3";
+
+package query.v1;
+
+service QueryService {
+  rpc QueryEvents(QueryEventsRequest) returns (QueryEventsResponse) {}
+}
+
+enum Operator {
+  OPERATOR_UNSPECIFIED = 0;
+  EQ = 1;
+  GT = 2;
+  GTE = 3;
+  LT = 4;
+  LTE = 5;
+  NEQ = 6;
+}
+
+enum AggregationType {
+  AGGREGATION_TYPE_UNSPECIFIED = 0;
+  SUM = 1;
+  COUNT = 2;
+}
+
+enum LogicalOperator {
+  LOGICAL_OPERATOR_UNSPECIFIED = 0;
+  AND = 1;
+  OR = 2;
+}
+
+enum BasicUsageField {
+  BASIC_USAGE_FIELD_UNSPECIFIED = 0;
+  BASIC_USAGE_EVENT_ID = 1;
+  BASIC_USAGE_EVENT_TYPE = 2;
+  BASIC_USAGE_USER_ID = 3;
+  BASIC_USAGE_API_KEY_ID = 4;
+  BASIC_USAGE_REPORTED_TIMESTAMP = 5;
+  BASIC_USAGE_INGESTED_TIMESTAMP = 6;
+  BASIC_USAGE_BASIC_USAGE_TYPE = 7;
+  BASIC_USAGE_DEBIT_AMOUNT = 8;
+  BASIC_USAGE_METADATA = 9;
+}
+
+enum AiTokenField {
+  AI_TOKEN_FIELD_UNSPECIFIED = 0;
+  AI_TOKEN_EVENT_ID = 1;
+  AI_TOKEN_EVENT_TYPE = 2;
+  AI_TOKEN_USER_ID = 3;
+  AI_TOKEN_API_KEY_ID = 4;
+  AI_TOKEN_REPORTED_TIMESTAMP = 5;
+  AI_TOKEN_INGESTED_TIMESTAMP = 6;
+  AI_TOKEN_MODEL = 7;
+  AI_TOKEN_INPUT_TOKENS = 8;
+  AI_TOKEN_OUTPUT_TOKENS = 9;
+  AI_TOKEN_INPUT_DEBIT_AMOUNT = 10;
+  AI_TOKEN_OUTPUT_DEBIT_AMOUNT = 11;
+  AI_TOKEN_METADATA = 12;
+}
+
+enum PaymentField {
+  PAYMENT_FIELD_UNSPECIFIED = 0;
+  PAYMENT_EVENT_ID = 1;
+  PAYMENT_EVENT_TYPE = 2;
+  PAYMENT_USER_ID = 3;
+  PAYMENT_API_KEY_ID = 4;
+  PAYMENT_REPORTED_TIMESTAMP = 5;
+  PAYMENT_INGESTED_TIMESTAMP = 6;
+  PAYMENT_CREDIT_AMOUNT = 7;
+}
+
+message FilterCondition {
+  string field = 1;
+  Operator operator = 2;
+  string value = 3;
+}
+
+message FilterGroup {
+  LogicalOperator logical = 1;
+  repeated FilterCondition conditions = 2;
+  repeated FilterGroup groups = 3;
+}
+
+message Aggregation {
+  AggregationType type = 1;
+  string field = 2;
+}
+
+message GroupBy {
+  string field = 1;
+}
+
+message QueryEventsRequest {
+  FilterGroup where = 1;
+  Aggregation aggregation = 2;
+  GroupBy group_by = 3;
+  int32 limit = 4;
+  int32 offset = 5;
+}
+
+message EventRow {
+  string event_id = 1;
+  string event_type = 2;
+  string user_id = 3;
+  string reported_timestamp = 4;
+  string ingested_timestamp = 5;
+  string basic_usage_type = 6;
+  int64 debit_amount = 7;
+  optional string model = 9;
+  optional int32 input_tokens = 10;
+  optional int32 output_tokens = 11;
+  optional int64 input_debit_amount = 12;
+  optional int64 output_debit_amount = 13;
+  optional string provider = 14;
+  optional int32 input_cache_tokens = 15;
+  optional int64 input_cache_debit_amount = 16;
+  optional string metadata = 17;
+}
+
+message AggregationRow {
+  optional string group_value = 1;
+  string agg_value = 2;
+}
+
+message QueryEventsResponse {
+  repeated EventRow rows = 1;
+  repeated AggregationRow agg_rows = 2;
+  int32 total = 3;
+}
