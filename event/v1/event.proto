@@ -90,7 +90,16 @@ message AITokenUsage {
   optional string metadata = 15;
 }
 
+message EventFailure {
+  int32 eventIndex = 1;
+  string idempotencyKey = 2;
+  string errorCode = 3;
+  string message = 4;
+}
+
 message StreamEventResponse {
   int32 eventsProcessed = 1;
   string message = 2;
+  int32 eventsFailed = 3;
+  repeated EventFailure failures = 4;
 }
