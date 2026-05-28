@@ -2,4 +2,9 @@ version: v2
 plugins:
   - local: protoc-gen-ts_proto
     out: ../src/gen
+<<<<<<< HEAD
     opt: grpc-js=true,esModuleInterop=true,outputServices=grpc-js
+=======
+    opt:
+      - outputServices=grpc-js
+>>>>>>> d759346676331bc1bb15f6d40f6ef3dd1aeb8706

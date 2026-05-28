@@ -91,6 +91,14 @@ message AITokenUsage {
     string inputCacheExpr = 14; // Pricing expression for input cache tokens
   }
 
+  int32 outputCacheTokens = 16;
+
+  oneof outputCacheDebit {
+    int32 outputCacheAmount = 17;
+    string outputCacheTag = 18;
+    string outputCacheExpr = 19; // Pricing expression for output cache tokens
+  }
+
   optional string metadata = 15;
 }
 
