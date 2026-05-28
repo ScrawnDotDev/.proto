@@ -46,7 +46,11 @@ message BasicUsage {
 }
 
 message RegisterEventResponse {
-  string random = 1;
+  string eventId = 1;
+  string idempotencyKey = 2;
+  int64 ingestedTimestamp = 3;
+  string eventType = 4;
+  string userId = 5;
 }
 
 message StreamEventRequest {
