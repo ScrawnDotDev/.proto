@@ -26,6 +26,8 @@ message RegisterEventRequest {
   EventType type = 1;
   string userId = 2;
   int32 reportedTimestamp = 3;
+  string eventId = 5;
+  string idempotencyKey = 6;
   oneof data {
     BasicUsage basicUsage = 4;
   }
@@ -51,6 +53,8 @@ message StreamEventRequest {
   EventType type = 1;
   string userId = 2;
   int32 reportedTimestamp = 3;
+  string eventId = 6;
+  string idempotencyKey = 7;
   oneof data {
     BasicUsage basicUsage = 4;
     AITokenUsage aiTokenUsage = 5;
@@ -81,6 +85,14 @@ message AITokenUsage {
     int32 inputCacheAmount = 12;
     string inputCacheTag = 13;
     string inputCacheExpr = 14; // Pricing expression for input cache tokens
+  }
+
+  int32 outputCacheTokens = 16;
+
+  oneof outputCacheDebit {
+    int32 outputCacheAmount = 17;
+    string outputCacheTag = 18;
+    string outputCacheExpr = 19; // Pricing expression for output cache tokens
   }
 
   optional string metadata = 15;
