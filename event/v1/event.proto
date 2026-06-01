@@ -51,6 +51,7 @@ message RegisterEventResponse {
   int64 ingestedTimestamp = 3;
   string eventType = 4;
   string userId = 5;
+  string message = 6;
 }
 
 message StreamEventRequest {
